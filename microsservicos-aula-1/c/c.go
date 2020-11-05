@@ -79,7 +79,7 @@ func makeHttpCall(urlMicroservice string) Result {
 
 	data, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal("Error processing result")
+		log.Fatal("Error processing result!")
 	}
 
 	result := Result{}
