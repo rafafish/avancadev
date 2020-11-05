@@ -3,8 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 type Coupon struct {
@@ -31,18 +35,20 @@ type Result struct {
 var coupons Coupons
 
 func main() {
-	coupon := Coupon{
-		Code: "abc",
-	}
-
-	coupons.Coupon = append(coupons.Coupon, coupon)
-
 	http.HandleFunc("/", home)
 	http.ListenAndServe(":9092", nil)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
 	coupon := r.PostFormValue("coupon")
+
+	resultMicroserviceD := makeHttpCall("http://localhost:9093")
+
+	addCoupon := Coupon{
+		Code: string(resultMicroserviceD.Status),
+	}
+	coupons.Coupon = append(coupons.Coupon, addCoupon)
+
 	valid := coupons.Check(coupon)
 
 	result := Result{Status: valid}
@@ -53,5 +59,33 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, string(jsonResult))
+
+}
+
+func makeHttpCall(urlMicroservice string) Result {
+
+	values := url.Values{}
+
+	retryClient := retryablehttp.NewClient()
+	retryClient.RetryMax = 5
+
+	res, err := retryClient.PostForm(urlMicroservice, values)
+	if err != nil {
+		result := Result{Status: "Servidor fora do ar!"}
+		return result
+	}
+
+	defer res.Body.Close()
+
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal("Error processing result")
+	}
+
+	result := Result{}
+
+	json.Unmarshal(data, &result)
+
+	return result
 
 }
