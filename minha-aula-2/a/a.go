@@ -2,11 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/joho/godotenv"
-	"github.com/wesleywillians/go-rabbitmq/queue"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/joho/godotenv"
+	"github.com/wesleywillians/go-rabbitmq/queue"
 )
 
 type Order struct {
@@ -21,7 +22,7 @@ type Result struct {
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env")
+		log.Fatal("Error loading env")
 	}
 }
 
@@ -55,7 +56,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 	ch := rabbitMQ.Connect()
 	defer ch.Close()
 
-	err = rabbitMQ.Notify(string(jsonOrder), "application/json", "orders_ex", "")
+	err = rabbitMQ.Notify(string(jsonOrder), "application/json", "orders_ex")
 	if err != nil {
 		log.Fatal("Error sending message to the queue")
 	}
