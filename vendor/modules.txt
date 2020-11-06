@@ -1,0 +1,17 @@
+# github.com/hashicorp/go-cleanhttp v0.5.1
+github.com/hashicorp/go-cleanhttp
+# github.com/hashicorp/go-retryablehttp v0.6.8
+## explicit
+github.com/hashicorp/go-retryablehttp
+# github.com/joho/godotenv v1.3.0
+## explicit
+github.com/joho/godotenv
+# github.com/satori/go.uuid v1.2.0
+## explicit
+github.com/satori/go.uuid
+# github.com/streadway/amqp v1.0.0
+## explicit
+github.com/streadway/amqp
+# github.com/wesleywillians/go-rabbitmq v0.0.0-20201027193450-55e6a80937af
+## explicit
+github.com/wesleywillians/go-rabbitmq/queue
