@@ -56,7 +56,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 	ch := rabbitMQ.Connect()
 	defer ch.Close()
 
-	err = rabbitMQ.Notify(string(jsonOrder), "application/json", "orders_ex")
+	err = rabbitMQ.Notify(string(jsonOrder), "application/json", "orders_ex", "")
 	if err != nil {
 		log.Fatal("Error sending message to the queue")
 	}
