@@ -1,5 +1,0 @@
-# github.com/hashicorp/go-cleanhttp v0.5.1
-github.com/hashicorp/go-cleanhttp
-# github.com/hashicorp/go-retryablehttp v0.6.8
-## explicit
-github.com/hashicorp/go-retryablehttp
