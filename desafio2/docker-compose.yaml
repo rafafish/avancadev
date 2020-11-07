@@ -2,6 +2,11 @@ version: '3'
 
 services:
 
+  microservice-a:
+    image: rafaelfs81/microservice-a:latest
+    ports:
+      - 9090:9090
+
   rabbit:
     image: "rabbitmq:3-management"
     environment:
@@ -12,3 +17,20 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
+  microservice-b:
+    depends_on:
+        - "rabbit"
+    image: rafaelfs81/microservice-b:latest
+    ports:
+      - 9091:9091
+  
+  microservice-c:
+    image: rafaelfs81/microservice-c:latest
+    ports:
+      - 9092:9092
+
+  microservice-d:
+    image: rafaelfs81/microservice-c:latest
+    ports:
+      - 9093:9093
