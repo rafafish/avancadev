@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -20,4 +20,4 @@ jobs:
         run: CI=true npm test 
       - name: Build
         run: npm run build
-        
+
